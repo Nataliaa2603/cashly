@@ -1,0 +1,20 @@
+CASHLY1 - ACTUALIZACION VISUAL
+
+Esta carpeta corresponde a la copia de trabajo cashly1. No reemplaza ni modifica la carpeta original cashly.
+
+Cambios incluidos:
+- Ajuste visual integrado de los tres temas: Azul claro, Azul normal (azul intermedio) y Azul oscuro.
+- Mejor jerarquia de tamaños, espacios, tarjetas, resumen, gráficos, historial y formularios.
+- Mejor contraste en tema oscuro, incluido calendario, tablas y paneles administrativos.
+- Los gastos registrados desde Presupuestos aparecen en el historial de Inicio.
+- El total de gastos del resumen incluye los gastos registrados en presupuestos además de los movimientos habituales.
+- Corrección de compatibilidad: se quitó el tipo de retorno `never`, que no es compatible con PHP 7.1.
+
+Instalación recomendada:
+1. Haz una copia de seguridad de tu carpeta C:\\xampp\\htdocs\\cashly1 antes de reemplazar archivos.
+2. Extrae este ZIP. Dentro encontrarás la carpeta cashly1 con los archivos del proyecto.
+3. Copia el contenido de la carpeta cashly1 extraída dentro de C:\\xampp\\htdocs\\cashly1, aceptando reemplazar archivos.
+4. No reemplaces ni borres C:\\xampp\\htdocs\\cashly.
+5. Abre http://localhost/cashly1/public/ y prueba los tres temas desde Mi perfil > Apariencia.
+
+Validación realizada: sintaxis PHP comprobada con el intérprete disponible en este entorno. No se pudo probar la conexión con tu base de datos local ni verificar visualmente en tu navegador de XAMPP desde aquí.
