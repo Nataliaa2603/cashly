@@ -18,3 +18,10 @@ Instalación recomendada:
 5. Abre http://localhost/cashly1/public/ y prueba los tres temas desde Mi perfil > Apariencia.
 
 Validación realizada: sintaxis PHP comprobada con el intérprete disponible en este entorno. No se pudo probar la conexión con tu base de datos local ni verificar visualmente en tu navegador de XAMPP desde aquí.
+
+ACTUALIZACION VISUAL DE RESUMENES Y ESTADISTICAS (NOVIEMBRE 2026)
+- Estadísticas del administrador: gráfica de usuarios por mes a todo el ancho y dos tarjetas inferiores con dona y leyenda para categorías más usadas y distribución de gastos, siguiendo las referencias visuales suministradas.
+- Resumen semanal y mensual del usuario: conserva los indicadores y sus etiquetas (ÚLTIMOS 7 DÍAS / Resumen semanal / ingresos / gastos / Balance semanal y MES ACTUAL / Resumen mensual / ingresos / gastos / Balance mensual), y añade tablas de ingresos y gastos por categoría.
+- Añadidas tarjetas de capacidad de ahorro semanal y mensual calculadas a partir de los ingresos y gastos del periodo.
+- Las cifras siguen siendo dinámicas y se calculan con los registros reales de cada usuario; no se fijaron importes de demostración.
+- Se añadieron consultas de ingresos agrupados por categoría para los periodos semanal y mensual.

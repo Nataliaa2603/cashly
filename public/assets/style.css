@@ -1614,3 +1614,68 @@ html[data-theme="dark"] .help-manual-download .manual-file-icon { background: #2
   .home-chart-panel { min-height: 340px !important; }
   .home-summary-chart-box { min-height: 260px !important; height: 260px !important; }
 }
+
+/* Ajustes puntuales: fotografías de consejos y gráficas de estadísticas */
+.article-photo{overflow:hidden;background:var(--panel,#fff)}
+.article-photo img{display:block;width:100%;height:100%;min-height:190px;object-fit:cover}
+.stats-visual-grid{align-items:stretch;gap:18px}
+.stats-visual-card{min-height:360px;padding:24px;display:flex;flex-direction:column}
+.stats-chart-wrap.stats-bars{height:270px;min-height:250px;flex:1}
+.stats-donut-layout{display:grid;grid-template-columns:minmax(150px,1fr) minmax(125px,1fr);align-items:center;gap:16px;flex:1;min-height:270px}
+.stats-donut-wrap{height:250px;min-height:230px;max-width:100%}
+.stats-legend{font-size:13px;line-height:1.65}
+@media(max-width:900px){.stats-visual-grid{grid-template-columns:1fr}.stats-visual-card{min-height:320px}}
+
+/* Cashly: ajustes de historial, exportación y gráficas semanal/mensual. */
+.row-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.chart-explanation{font-size:12px;line-height:1.5;margin:-8px 0 12px}.charts-page-grid .chart-line-card{grid-column:auto}.charts-page-grid .chart-line-card .chart-line-box{height:300px}
+@media(max-width:700px){.charts-page-grid .chart-line-card .chart-line-box{height:270px}.row-actions{width:100%}.row-actions .btn{flex:1;text-align:center}}
+
+/* Presentación de estadísticas administrativas inspirada en las referencias de Cashly */
+.stats-visual-grid{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:18px!important;align-items:stretch!important;width:100%!important}
+.stats-visual-card{height:auto!important;min-height:350px!important;padding:20px!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;border:1px solid #d9e9fa!important;border-radius:17px!important;background:#fff!important;box-shadow:0 5px 18px rgba(42,94,150,.07)!important}
+.stats-visual-card:first-child{grid-column:1/-1!important;min-height:370px!important}
+.stats-visual-card h2{font-size:14px!important;font-weight:750!important;color:#2e6eae!important;margin:0 0 14px!important}
+.stats-chart-wrap.stats-bars{height:290px!important;min-height:270px!important;max-height:none!important;flex:1!important}
+.stats-donut-layout{height:auto!important;min-height:280px!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(135px,.85fr)!important;gap:18px!important;align-items:center!important;flex:1!important}
+.stats-donut-wrap{height:260px!important;min-height:240px!important;width:100%!important;max-width:100%!important}
+.stats-legend{max-height:270px!important;gap:13px!important;overflow:auto!important}
+.stats-legend li{font-size:11px!important;grid-template-columns:9px minmax(0,1fr) auto!important;gap:8px!important}
+.stats-legend-dot{width:8px!important;height:8px!important}
+.stats-legend li b{font-size:11px!important}
+@media(max-width:900px){.stats-visual-grid{grid-template-columns:minmax(0,1fr)!important}.stats-visual-card:first-child{grid-column:auto!important}.stats-visual-card{min-height:330px!important}.stats-donut-layout{grid-template-columns:minmax(0,1fr) minmax(130px,.9fr)!important}}
+@media(max-width:560px){.stats-visual-card{padding:15px!important;min-height:300px!important}.stats-chart-wrap.stats-bars{height:240px!important;min-height:220px!important}.stats-donut-layout{grid-template-columns:minmax(0,1fr)!important;gap:8px!important}.stats-donut-wrap{height:220px!important;min-height:210px!important}.stats-legend{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;max-height:none!important}.stats-legend li{font-size:10px!important}}
+
+/* Resumen semanal y mensual: detalle por categorías y capacidad de ahorro */
+.summary-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.summary-detail-card{min-width:0;padding:22px!important;border:1px solid #dceafa!important;border-radius:16px!important;background:#fff!important;box-shadow:0 5px 18px rgba(42,94,150,.06)!important}
+.summary-detail-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:16px}
+.summary-detail-heading .eyebrow{margin:0 0 5px;color:#6793c4;font-size:10px;font-weight:800;letter-spacing:.09em}
+.summary-detail-heading h2{margin:0;color:#285b91;font-size:20px}
+.summary-period-badge{flex:none;border-radius:20px;padding:5px 10px;background:#edf5ff;color:#3979bd;font-size:10px;font-weight:700;white-space:nowrap}
+.summary-detail-card .summary-numbers{gap:10px}
+.summary-detail-card .summary-numbers div{background:#f5f9fe;border:1px solid #e8f1fb;padding:13px}
+.summary-detail-card .summary-numbers small{font-size:11px;color:#6f8eae}
+.summary-detail-card .summary-numbers strong{font-size:clamp(15px,1.5vw,20px)}
+.summary-detail-card .summary-balance{margin-top:10px;padding:12px 13px;background:#fbfdff;border-color:#e2edf8;font-size:12px}
+.summary-detail-card .summary-balance b{font-size:14px}
+.negative-balance{color:#d65e7b!important}.positive-balance{color:#159b80!important}
+.summary-breakdown{margin-top:20px;min-width:0}
+.summary-breakdown h3{display:flex;align-items:center;gap:9px;margin:0 0 11px;color:#315d8d;font-size:13px;font-weight:750}
+.summary-dot{width:8px;height:8px;display:inline-block;flex:none;border-radius:50%}
+.income-dot{background:#2eae99}.expense-dot{background:#e66b88}
+.summary-data-table{border:1px solid #dceafa;border-radius:10px;overflow:hidden}
+.summary-data-head,.summary-data-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:11px 12px;font-size:11px}
+.summary-data-head{background:#eff6fe;color:#6c91ba;font-size:10px;font-weight:700}
+.summary-data-head b,.summary-data-row b{text-align:right;white-space:nowrap}
+.summary-data-row{min-height:40px;border-top:1px solid #e4eef9;color:#52749b}
+.summary-data-row b{color:#315d8d;font-size:11px}
+.summary-detail-card .empty-state{margin:0;padding:20px 12px;background:#f6faff;border:0;border-radius:10px;color:#7191b4;font-size:11px}
+.summary-detail-card .empty-state span{font-size:18px}
+.summary-capacity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.summary-capacity-card{display:flex;align-items:flex-start;gap:14px;padding:20px!important;border:1px solid #dceafa!important;border-radius:16px!important;background:#fff!important;box-shadow:0 5px 18px rgba(42,94,150,.05)!important}
+.summary-capacity-icon{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:12px;background:#edf5ff;color:#3178bd;font-size:20px;font-weight:700}
+.summary-capacity-card .eyebrow{margin:2px 0 7px;color:#7298c2;font-size:9px;font-weight:800;letter-spacing:.1em}
+.summary-capacity-card strong{display:block;color:#285b91;font-size:19px;margin-bottom:7px}
+.summary-capacity-card p:last-child{margin:0;color:#7290b0;font-size:11px;line-height:1.55}
+@media(max-width:850px){.summary-detail-grid{grid-template-columns:1fr}.summary-capacity-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.summary-detail-card{padding:15px!important}.summary-detail-heading h2{font-size:18px}.summary-detail-heading{flex-wrap:wrap}.summary-data-head,.summary-data-row{padding:10px 8px;font-size:10px}.summary-data-row b{font-size:10px}.summary-capacity-card{padding:15px!important}}

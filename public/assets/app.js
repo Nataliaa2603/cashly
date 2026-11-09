@@ -1,24 +1,20 @@
 document.addEventListener('DOMContentLoaded',()=>{
  const data=window.cashlyCharts||{};
- const byDay={};(data.week||[]).forEach(x=>byDay[String(x.movement_date).slice(0,10)]=x);const labels=[];const incomes=[];const expenses=[];const period=Number(data.period)||7;for(let i=period-1;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');labels.push(d.toLocaleDateString('es-CO',{weekday:'short',day:'2-digit'}));incomes.push(Number((byDay[k]||{}).income||0));expenses.push(Number((byDay[k]||{}).expense||0));}
- if(document.getElementById('weeklyChart')){
-  const chartText=getComputedStyle(document.documentElement).getPropertyValue('--chart-text').trim()||'#315984';
-  const money=value=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(value||0));
-  const compactAxis=value=>{
-   const n=Math.abs(Number(value)||0);
-   const sign=Number(value)<0?'-':'';
-   if(n>=1000000000000)return sign+'$'+(n/1000000000000).toLocaleString('es-CO',{maximumFractionDigits:1})+' bill.';
-   if(n>=1000000000)return sign+'$'+(n/1000000000).toLocaleString('es-CO',{maximumFractionDigits:1})+' mil M';
-   if(n>=1000000)return sign+'$'+(n/1000000).toLocaleString('es-CO',{maximumFractionDigits:1})+' M';
-   if(n>=1000)return sign+'$'+(n/1000).toLocaleString('es-CO',{maximumFractionDigits:1})+' mil';
-   return sign+'$'+n.toLocaleString('es-CO',{maximumFractionDigits:0});
-  };
-  const chartMax=Math.max(0,...incomes,...expenses);
-  new Chart(document.getElementById('weeklyChart'),{type:'line',data:{labels,datasets:[
-   {label:'Ingresos',data:incomes,borderColor:'#3997df',backgroundColor:'rgba(57,151,223,.09)',fill:true,tension:.32,borderWidth:2.5,pointRadius:0,pointHoverRadius:0,pointHitRadius:12,pointBackgroundColor:'#3997df',pointBorderWidth:0,spanGaps:false},
-   {label:'Gastos',data:expenses,borderColor:'#d95f83',backgroundColor:'rgba(217,95,131,.09)',fill:true,tension:.32,borderWidth:2.5,pointRadius:0,pointHoverRadius:0,pointHitRadius:12,pointBackgroundColor:'#d95f83',pointBorderWidth:0,spanGaps:false}
-  ]},options:{responsive:true,maintainAspectRatio:false,devicePixelRatio:Math.max(2,window.devicePixelRatio||1),interaction:{mode:'index',intersect:false},layout:{padding:{top:14,right:18,bottom:8,left:12}},plugins:{legend:{position:'bottom',labels:{color:chartText,font:{family:'DM Sans, Arial, sans-serif',size:12,weight:'600'},usePointStyle:true,pointStyle:'line',boxWidth:22,boxHeight:3,padding:18}},tooltip:{titleFont:{family:'DM Sans, Arial, sans-serif',size:13},bodyFont:{family:'DM Sans, Arial, sans-serif',size:12},callbacks:{label:ctx=>`${ctx.dataset.label}: ${money(ctx.parsed.y)}`}}},scales:{y:{beginAtZero:true,grace:'10%', afterFit:scale=>{scale.width=Math.max(scale.width,82);},max:chartMax===0?1:undefined,ticks:{color:chartText,font:{family:'DM Sans, Arial, sans-serif',size:10},precision:0,stepSize:chartMax===0?1:undefined,maxTicksLimit:chartMax===0?2:4,maxRotation:0,padding:10,autoSkip:true,callback:value=>compactAxis(value)},grid:{color:'rgba(120,150,190,.16)',drawBorder:false,tickLength:4}},x:{ticks:{color:chartText,font:{family:'DM Sans, Arial, sans-serif',size:10},maxTicksLimit:8,maxRotation:0,minRotation:0,autoSkip:true,padding:8},grid:{display:false}}}}});
- }
+ const money=value=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(value||0));
+ const compactAxis=value=>{const n=Math.abs(Number(value)||0),sign=Number(value)<0?'-':'';if(n>=1e12)return sign+'$'+(n/1e12).toLocaleString('es-CO',{maximumFractionDigits:1})+' bill.';if(n>=1e9)return sign+'$'+(n/1e9).toLocaleString('es-CO',{maximumFractionDigits:1})+' mil M';if(n>=1e6)return sign+'$'+(n/1e6).toLocaleString('es-CO',{maximumFractionDigits:1})+' M';if(n>=1e3)return sign+'$'+(n/1e3).toLocaleString('es-CO',{maximumFractionDigits:1})+' mil';return sign+'$'+n.toLocaleString('es-CO',{maximumFractionDigits:0});};
+ const makeFinanceLine=(canvasId,rows,range)=>{
+  const canvas=document.getElementById(canvasId);if(!canvas)return;
+  const byDay={};(rows||[]).forEach(x=>byDay[String(x.movement_date).slice(0,10)]=x);
+  const today=new Date();today.setHours(12,0,0,0);
+  const count=range==='month'?Number(data.monthPeriod)||today.getDate():7;
+  const start=new Date(today);start.setDate(today.getDate()-count+1);
+  const labels=[],incomes=[],expenses=[];
+  for(let i=0;i<count;i++){const d=new Date(start);d.setDate(start.getDate()+i);const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');labels.push(d.toLocaleDateString('es-CO',{weekday:range==='week'?'short':undefined,day:'2-digit',month:range==='month'?'short':undefined}));incomes.push(Number((byDay[key]||{}).income||0));expenses.push(Number((byDay[key]||{}).expense||0));}
+  const chartText=getComputedStyle(document.documentElement).getPropertyValue('--chart-text').trim()||'#315984';const chartMax=Math.max(0,...incomes,...expenses);
+  new Chart(canvas,{type:'line',data:{labels,datasets:[{label:'Ingresos',data:incomes,borderColor:'#3997df',backgroundColor:'rgba(57,151,223,.09)',fill:true,tension:.32,borderWidth:2.5,pointRadius:2,pointHoverRadius:4,pointBackgroundColor:'#3997df'},{label:'Gastos',data:expenses,borderColor:'#d95f83',backgroundColor:'rgba(217,95,131,.09)',fill:true,tension:.32,borderWidth:2.5,pointRadius:2,pointHoverRadius:4,pointBackgroundColor:'#d95f83'}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},layout:{padding:{top:10,right:12,bottom:5,left:8}},plugins:{legend:{position:'bottom',labels:{color:chartText,font:{family:'DM Sans, Arial, sans-serif',size:12,weight:'600'},usePointStyle:true,pointStyle:'line',boxWidth:22,boxHeight:3,padding:15}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${money(ctx.parsed.y)}`}}},scales:{y:{beginAtZero:true,grace:'10%',ticks:{color:chartText,precision:0,maxTicksLimit:5,callback:compactAxis},grid:{color:'rgba(120,150,190,.16)'}},x:{ticks:{color:chartText,maxTicksLimit:range==='month'?10:7,maxRotation:0,autoSkip:true},grid:{display:false}}}}});
+ };
+ makeFinanceLine('weeklyChart',data.week,'week');
+ makeFinanceLine('monthlyChart',data.month,'month');
  const hexRgb=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
  const mix=(a,b,t)=>'#'+hexRgb(a).map((v,i)=>Math.round(v+(hexRgb(b)[i]-v)*t).toString(16).padStart(2,'0')).join('');
  ['expense','income'].forEach(type=>{
@@ -58,7 +54,7 @@ const movementCategories={
  income:['Salario','Pago de nómina','Trabajo independiente','Freelance','Ventas','Negocio propio','Bonificaciones','Comisiones','Propinas','Becas y apoyos','Pensión','Arriendos recibidos','Intereses y rendimientos','Dividendos','Reembolsos','Regalos recibidos','Devoluciones','Premios','Mesada','Otros ingresos']
 };
 function refreshMovementCategories(selected=''){
- const type=document.getElementById('movement-type'),select=document.getElementById('movement-category-select'),hidden=document.getElementById('movement-category'),customWrap=document.getElementById('custom-category-wrap'),custom=document.getElementById('movement-custom-category'),note=document.getElementById('category-note');
+ const type=document.getElementById('movement-type'),select=document.getElementById('movement-category-select'),hidden=document.getElementById('movement-category'),customWrap=document.getElementById('custom-category-wrap'),custom=document.getElementById('movement-custom-category');
  if(!type||!select||!hidden)return;
  const list=movementCategories[type.value]||movementCategories.expense;
  select.innerHTML='<option value="">Selecciona una categoría</option>'+list.map(c=>`<option value="${c.replaceAll('&','&amp;').replaceAll('"','&quot;')}">${c}</option>`).join('')+'<option value="__custom__">＋ Otro / agregar categoría</option>';
@@ -67,7 +63,7 @@ function refreshMovementCategories(selected=''){
  if(customWrap)customWrap.hidden=select.value!=='__custom__';
  if(custom)custom.value=isCustom?selected:'';
  hidden.value=isCustom?selected:(select.value==='__custom__'?'':select.value);
- if(note)note.textContent=type.value==='expense'?'Los gastos se mostrarán en tonos rosa: cuanto mayor sea el importe de una categoría, más intenso será su color.':'Los ingresos se mostrarán en tonos azules: los importes más altos tendrán un color más intenso.';
+
 }
 document.addEventListener('DOMContentLoaded',()=>{
  const type=document.getElementById('movement-type'),select=document.getElementById('movement-category-select'),hidden=document.getElementById('movement-category'),custom=document.getElementById('movement-custom-category'),wrap=document.getElementById('custom-category-wrap');
@@ -156,7 +152,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 // Editor completo de consejos financieros en el panel administrativo.
 function editArticle(article){
  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value??''};
- set('article-id',article.id);set('article-title',article.title);set('article-category',article.category||'Educación financiera');set('article-image',article.image_url);set('article-body',article.body);
+ set('article-id',article.id);set('article-title',article.title);set('article-category',article.category||'Educación financiera');set('article-image',/^https?:\/\//i.test(article.image_url||'')?article.image_url:'');set('article-current-image',article.image_url||'');set('article-body',article.body);
  const published=document.getElementById('article-published');if(published)published.checked=String(article.published)==='1';
  const heading=document.getElementById('article-form-title');if(heading)heading.textContent='Editar consejo financiero';
  const button=document.getElementById('article-save-button');if(button)button.textContent='Guardar cambios';
@@ -164,7 +160,7 @@ function editArticle(article){
 }
 function resetArticleForm(){
  const form=document.getElementById('article-form');if(form)form.reset();
- const id=document.getElementById('article-id');if(id)id.value='';
+ const id=document.getElementById('article-id');if(id)id.value='';const currentImage=document.getElementById('article-current-image');if(currentImage)currentImage.value='';
  const heading=document.getElementById('article-form-title');if(heading)heading.textContent='Crear consejo financiero';
  const button=document.getElementById('article-save-button');if(button)button.textContent='Guardar consejo';
  const category=document.getElementById('article-category');if(category)category.value='Educación financiera';
